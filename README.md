@@ -89,7 +89,7 @@ Build and run the project.
 
 The project uses the NAudio package for Windows audio capture.
 
-Current Limitations
+# Current Limitations
 
 The current version records a single Windows audio output device at a time.
 
@@ -104,7 +104,7 @@ System tray operation
 
 These may be added in future versions.
 
-Planned Features
+# Planned Features
 
 Possible future improvements include:
 
