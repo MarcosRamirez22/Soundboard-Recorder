@@ -70,6 +70,10 @@ Recording_2026-09-08_18-30-45.wav
 
 The recording location can be changed from within the application.
 
+# Download
+
+Download the latest Windows build from the [Releases](../../releases) page.
+
 # Requirements
 Windows
 A working Windows audio output device
