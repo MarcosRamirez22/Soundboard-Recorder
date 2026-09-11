@@ -170,4 +170,4 @@ Some features and behavior may change between releases.
 
 This project is licensed under the MIT License.
 
-See the [LICENSE](LICENSE) file for details.
+See the LICENSE file for details.
