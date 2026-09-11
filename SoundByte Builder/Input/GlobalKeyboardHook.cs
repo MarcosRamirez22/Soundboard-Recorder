@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Soundboard_Recorder
+namespace SoundByte_Builder.Input
 {
     public class GlobalKeyboardHook : IDisposable
     {
@@ -13,7 +13,7 @@ namespace Soundboard_Recorder
         private const int WM_SYSKEYUP = 0x0105;
 
         private readonly LowLevelKeyboardProc hookProc;
-        private IntPtr hookId = IntPtr.Zero;
+        private nint hookId = nint.Zero;
 
         public event Action<Keys>? KeyDown;
         public event Action<Keys>? KeyUp;
@@ -24,7 +24,7 @@ namespace Soundboard_Recorder
             hookId = SetHook(hookProc);
         }
 
-        private IntPtr SetHook(LowLevelKeyboardProc proc)
+        private nint SetHook(LowLevelKeyboardProc proc)
         {
             using Process currentProcess = Process.GetCurrentProcess();
             using ProcessModule? currentModule = currentProcess.MainModule;
@@ -37,24 +37,24 @@ namespace Soundboard_Recorder
             );
         }
 
-        private IntPtr HookCallback(
+        private nint HookCallback(
             int nCode,
-            IntPtr wParam,
-            IntPtr lParam)
+            nint wParam,
+            nint lParam)
         {
             if (nCode >= 0)
             {
                 int virtualKeyCode = Marshal.ReadInt32(lParam);
                 Keys key = (Keys)virtualKeyCode;
 
-                if (wParam == (IntPtr)WM_KEYDOWN ||
-                    wParam == (IntPtr)WM_SYSKEYDOWN)
+                if (wParam == WM_KEYDOWN ||
+                    wParam == WM_SYSKEYDOWN)
                 {
                     KeyDown?.Invoke(key);
                 }
 
-                if (wParam == (IntPtr)WM_KEYUP ||
-                    wParam == (IntPtr)WM_SYSKEYUP)
+                if (wParam == WM_KEYUP ||
+                    wParam == WM_SYSKEYUP)
                 {
                     KeyUp?.Invoke(key);
                 }
@@ -70,29 +70,29 @@ namespace Soundboard_Recorder
 
         public void Dispose()
         {
-            if (hookId != IntPtr.Zero)
+            if (hookId != nint.Zero)
             {
                 UnhookWindowsHookEx(hookId);
-                hookId = IntPtr.Zero;
+                hookId = nint.Zero;
             }
 
             GC.SuppressFinalize(this);
         }
 
-        private delegate IntPtr LowLevelKeyboardProc(
+        private delegate nint LowLevelKeyboardProc(
             int nCode,
-            IntPtr wParam,
-            IntPtr lParam
+            nint wParam,
+            nint lParam
         );
 
         [DllImport(
             "user32.dll",
             CharSet = CharSet.Auto,
             SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(
+        private static extern nint SetWindowsHookEx(
             int idHook,
             LowLevelKeyboardProc lpfn,
-            IntPtr hMod,
+            nint hMod,
             uint dwThreadId
         );
 
@@ -101,25 +101,25 @@ namespace Soundboard_Recorder
             CharSet = CharSet.Auto,
             SetLastError = true)]
         private static extern bool UnhookWindowsHookEx(
-            IntPtr hhk
+            nint hhk
         );
 
         [DllImport(
             "user32.dll",
             CharSet = CharSet.Auto,
             SetLastError = true)]
-        private static extern IntPtr CallNextHookEx(
-            IntPtr hhk,
+        private static extern nint CallNextHookEx(
+            nint hhk,
             int nCode,
-            IntPtr wParam,
-            IntPtr lParam
+            nint wParam,
+            nint lParam
         );
 
         [DllImport(
             "kernel32.dll",
             CharSet = CharSet.Auto,
             SetLastError = true)]
-        private static extern IntPtr GetModuleHandle(
+        private static extern nint GetModuleHandle(
             string? lpModuleName
         );
     }

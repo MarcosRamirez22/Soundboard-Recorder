@@ -3,7 +3,8 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows7.0</TargetFramework>
-    <RootNamespace>Soundboard_Recorder</RootNamespace>
+	<AssemblyName>Soundboard Recorder</AssemblyName>
+    <RootNamespace>SoundByte_Builder</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
